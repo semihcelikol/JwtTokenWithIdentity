@@ -34,20 +34,5 @@ namespace JwtTokenWithIdentity.Controllers
 
             return Ok(productList);
         }
-
-        [HttpGet]
-        [Route("GetA")]
-        public ActionResult GetA()
-        {
-            List<Products> productList = new List<Products>();
-
-            foreach (var item in _context.Products)
-            {
-                productList.Add(item);
-            }
-
-            return Ok(productList);
-        }
-
     }
 }
