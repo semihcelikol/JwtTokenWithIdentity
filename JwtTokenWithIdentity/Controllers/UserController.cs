@@ -1,13 +1,7 @@
 ﻿using JwtTokenWithIdentity.Library;
 using JwtTokenWithIdentity.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace JwtTokenWithIdentity.Controllers
 {
@@ -89,8 +83,6 @@ namespace JwtTokenWithIdentity.Controllers
                     //Kullanıcıya ilgili rol ataması yapılır.
                     _userManager.AddToRoleAsync(user, _config["Roles:User"]).Wait();
 
-                    //todo rol içerde yoksa oluşturulacak.
-
                     responseViewModel.IsSuccess = true;
                     responseViewModel.Message = "Kullanıcı başarılı şekilde oluşturuldu.";
                 }
@@ -131,7 +123,6 @@ namespace JwtTokenWithIdentity.Controllers
                 //Kulllanıcı bulunur.
                 ApplicationUser user = await _userManager.FindByNameAsync(model.Email);
 
-                //Kullanıcı var ise;
                 if (user == null)
                 {
                     return Unauthorized();
@@ -172,7 +163,7 @@ namespace JwtTokenWithIdentity.Controllers
                 responseViewModel.IsSuccess = false;
                 responseViewModel.Message = ex.Message;
 
-                return BadRequest(responseViewModel);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }
